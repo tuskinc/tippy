@@ -6,6 +6,11 @@ import { Label } from '@/components/ui/label';
 import Footer from '@/components/Footer';
 import { supabase } from '@/integrations/supabase/client';
 
+type ProfileMetadata = {
+  name: string;
+  phone: string;
+};
+
 const ProfileSettings: React.FC = () => {
   const { user } = useAuth();
   const [name, setName] = useState(user?.user_metadata?.name || '');
@@ -25,7 +30,7 @@ const ProfileSettings: React.FC = () => {
     setLoading(true);
     try {
       // Update user metadata
-      const updates: any = { name, phone };
+      const updates: ProfileMetadata = { name, phone };
       const { error: metaError } = await supabase.auth.updateUser({ data: updates });
       if (metaError) throw metaError;
 
@@ -47,8 +52,9 @@ const ProfileSettings: React.FC = () => {
       }
 
       setMessage('Profile updated successfully!');
-    } catch (err: any) {
-      setError(err.message || 'Failed to update profile');
+    } catch (err) {
+      const message = err instanceof Error ? err.message : 'Failed to update profile';
+      setError(message);
     } finally {
       setLoading(false);
     }
