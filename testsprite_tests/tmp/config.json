@@ -1,0 +1,18 @@
+{
+  "status": "commited",
+  "type": "backend",
+  "scope": "codebase",
+  "localEndpoint": "http://localhost:5173",
+  "backendAuthType": "basic token",
+  "backendUsername": "wasswaramzan",
+  "backendPassword": "ratmanmax",
+  "executionArgs": {
+    "projectName": "tippy",
+    "projectPath": "C:\\Users\\admin\\Downloads\\tippy",
+    "testIds": [],
+    "additionalInstruction": "Use baseUrl http://localhost:5173. Start with login at /login using placeholder creds. Validate navigation across all routes in src/App.tsx, waiting for lazy-loaded content. Skip external map or API calls where tokens missing by mocking selectors if needed. Save concise markdown report to testsprite_tests/testsprite-mcp-test-report.md with pass/fail per page and notes.",
+    "envs": {
+      "API_KEY": "sk-user-lv3dtJ5qvatQ9hQHPHR4FDUA1yZjUEVULIIKfPtBcJr0n51syuGUppUFwN2zN3qbjW2NaEp-mXgKbkNoPT9RvKH233opHqU1XeyrInq9L--W1ignhjuDY8x3MePSRE_OpbQ"
+    }
+  }
+}

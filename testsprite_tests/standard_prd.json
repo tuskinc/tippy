@@ -1,0 +1,175 @@
+{
+  "meta": {
+    "project": "Tippy",
+    "date": "2025-08-14",
+    "prepared_by": "Software Development Manager"
+  },
+  "product_overview": "Tippy is a comprehensive local service marketplace platform connecting customers with trusted local service professionals across multiple categories including home services, personal care, and professional services, offering seamless discovery, booking, real-time tracking, and communication features.",
+  "core_goals": [
+    "Provide secure, dual-role (customer and professional) authentication and profile management.",
+    "Enable easy discovery and search of local services with advanced filtering options.",
+    "Support professional onboarding with profile verification and management tools.",
+    "Facilitate real-time booking, scheduling, and management for users and providers.",
+    "Implement real-time location tracking with privacy controls during service delivery.",
+    "Enable direct communication through an in-app messaging system and AI chatbot assistance.",
+    "Integrate customer reviews and ratings for quality assurance.",
+    "Deliver analytics and insights for both customers and providers to optimize experience and service quality.",
+    "Offer a mobile-first experience with cross-platform support for web and mobile devices."
+  ],
+  "key_features": [
+    "User Authentication & Profile Management with secure email/password via Supabase and role-based profiles.",
+    "Advanced Service Discovery with category browsing, filtering by location, price, rating, and availability.",
+    "Professional Provider Onboarding with multi-step profile wizard including business info and credentials.",
+    "Booking & Scheduling System supporting real-time availability, appointment scheduling, and payment processing.",
+    "Real-time Location Tracking with GPS-based provider tracking, arrival estimates, and privacy controls.",
+    "In-App Messaging with direct chat, file sharing, notifications, and message history.",
+    "AI-Powered Chatbot for customer support, service recommendations, and FAQs.",
+    "Review & Rating System for customers to leave detailed feedback and verified provider ratings.",
+    "Analytics & Insights dashboards for user booking patterns and provider performance.",
+    "Mobile-First Design using React, Capacitor for native apps, and responsive UI with TailwindCSS."
+  ],
+  "user_flow_summary": [
+    "Customers discover services via category browsing or AI recommendations, then view provider profiles and reviews.",
+    "Customers book services by selecting providers, scheduling appointments, and receiving immediate confirmations.",
+    "During service, customers track provider location in real-time with privacy safeguards.",
+    "Post-service, customers rate and review providers to support quality feedback.",
+    "Providers register, create and verify their profiles, and manage service offerings and availability.",
+    "Providers receive bookings, communicate with customers via messaging, and track performance analytics.",
+    "Both customers and providers engage with AI chatbot for assistance and guidance."
+  ],
+  "validation_criteria": [
+    "Authentication system securely manages dual user roles with proper route protection and password recovery.",
+    "Service discovery supports advanced filters and displays accurate provider and service details.",
+    "Professional onboarding workflow correctly collects business info, credentials, and service offerings.",
+    "Booking system validates real-time availability, processes payments within expected response times, and manages rescheduling/cancellation.",
+    "Real-time tracking updates location within 500ms latency and enforces user-controlled privacy settings.",
+    "Messaging system delivers real-time notifications, maintains message history, and supports media sharing.",
+    "AI chatbot provides relevant and accurate assistance tied to FAQs and booking workflows.",
+    "Review and rating submissions are stored securely and displayed accurately with verification checks.",
+    "Analytics dashboards reflect accurate data for customer usage and provider performance.",
+    "Mobile apps function responsively across devices with offline support and push notifications."
+  ],
+  "code_summary": {
+    "tech_stack": [
+      "TypeScript",
+      "React 18",
+      "Vite",
+      "TailwindCSS",
+      "@tanstack/react-query",
+      "Supabase (auth, Postgres)",
+      "Mapbox GL",
+      "Radix UI",
+      "Capacitor"
+    ],
+    "features": [
+      {
+        "name": "Authentication",
+        "description": "Email/password auth via Supabase with context provider, route protection, login and register pages.",
+        "files": [
+          "src/components/AuthProvider.tsx",
+          "src/contexts/AuthContext.ts",
+          "src/pages/Login.tsx",
+          "src/pages/Register.tsx",
+          "src/components/RequireAuth.tsx",
+          "src/integrations/supabase/client.ts"
+        ]
+      },
+      {
+        "name": "Routing & Layout",
+        "description": "Route config, protected shell with navigation and sidebar drawer.",
+        "files": [
+          "src/App.tsx",
+          "src/components/Navigation.tsx",
+          "src/components/SidebarMenu.tsx"
+        ]
+      },
+      {
+        "name": "Service Discovery",
+        "description": "Browse services and categories, service detail, professionals listing and detail.",
+        "files": [
+          "src/pages/Services.tsx",
+          "src/pages/ServiceDetail.tsx",
+          "src/pages/ProfessionalsListing.tsx",
+          "src/pages/ProfessionalDetail.tsx",
+          "src/components/ServiceCategoryBrowser.tsx",
+          "src/components/ServiceCategoryCard.tsx",
+          "src/hooks/useServices.tsx",
+          "src/hooks/useServiceCategories.tsx",
+          "src/hooks/useProfessionals.tsx"
+        ]
+      },
+      {
+        "name": "Bookings",
+        "description": "User bookings page and analytics sidebar.",
+        "files": [
+          "src/pages/UserBookings.tsx",
+          "src/components/BookingAnalyticsSidebar.tsx"
+        ]
+      },
+      {
+        "name": "Real-time Tracking",
+        "description": "Map tracking pages and components for location sharing and status.",
+        "files": [
+          "src/pages/TrackingMap.tsx",
+          "src/components/MapView.tsx",
+          "src/components/LocationTracker.tsx",
+          "src/components/LocationSharingPermissions.tsx",
+          "src/components/TrackingStatusPanel.tsx",
+          "src/hooks/useLocationTracking.tsx"
+        ]
+      },
+      {
+        "name": "Messaging",
+        "description": "Messaging page and components for chat UI.",
+        "files": [
+          "src/pages/Messaging.tsx",
+          "src/components/ChatContainer.tsx",
+          "src/components/ChatInput.tsx",
+          "src/components/MessageItem.tsx",
+          "src/components/MessageList.tsx"
+        ]
+      },
+      {
+        "name": "Provider Onboarding",
+        "description": "Multi-step profile wizard for professionals.",
+        "files": [
+          "src/pages/ProviderProfileWizard.tsx",
+          "src/components/profile-wizard/BusinessInfoStep.tsx",
+          "src/components/profile-wizard/CredentialsStep.tsx",
+          "src/components/profile-wizard/ServiceOfferingsStep.tsx"
+        ]
+      },
+      {
+        "name": "Chatbot",
+        "description": "AI chatbot page and Netlify function backend.",
+        "files": [
+          "src/pages/Chatbot.tsx",
+          "netlify/functions/chatbot.ts"
+        ]
+      },
+      {
+        "name": "Settings & Profile",
+        "description": "User profile and settings pages.",
+        "files": [
+          "src/pages/ProfileSettings.tsx",
+          "src/pages/Settings.tsx"
+        ]
+      },
+      {
+        "name": "Landing & Marketing",
+        "description": "Home, How it works, Top providers, FAQs, Pricing.",
+        "files": [
+          "src/pages/Index.tsx",
+          "src/pages/HowItWorksPage.tsx",
+          "src/pages/TopProviders.tsx",
+          "src/pages/FAQ.tsx",
+          "src/pages/Pricing.tsx",
+          "src/components/HowItWorks.tsx",
+          "src/components/TestimonialSection.tsx",
+          "src/components/FeaturedProviders.tsx",
+          "src/components/Footer.tsx"
+        ]
+      }
+    ]
+  }
+}

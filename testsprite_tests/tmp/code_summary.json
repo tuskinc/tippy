@@ -1,0 +1,125 @@
+{
+  "tech_stack": [
+    "TypeScript",
+    "React 18",
+    "Vite",
+    "TailwindCSS",
+    "@tanstack/react-query",
+    "Supabase (auth, Postgres)",
+    "Mapbox GL",
+    "Radix UI",
+    "Capacitor"
+  ],
+  "features": [
+    {
+      "name": "Authentication",
+      "description": "Email/password auth via Supabase with context provider, route protection, login and register pages.",
+      "files": [
+        "src/components/AuthProvider.tsx",
+        "src/contexts/AuthContext.ts",
+        "src/pages/Login.tsx",
+        "src/pages/Register.tsx",
+        "src/components/RequireAuth.tsx",
+        "src/integrations/supabase/client.ts"
+      ]
+    },
+    {
+      "name": "Routing & Layout",
+      "description": "Route config, protected shell with navigation and sidebar drawer.",
+      "files": [
+        "src/App.tsx",
+        "src/components/Navigation.tsx",
+        "src/components/SidebarMenu.tsx"
+      ]
+    },
+    {
+      "name": "Service Discovery",
+      "description": "Browse services and categories, service detail, professionals listing and detail.",
+      "files": [
+        "src/pages/Services.tsx",
+        "src/pages/ServiceDetail.tsx",
+        "src/pages/ProfessionalsListing.tsx",
+        "src/pages/ProfessionalDetail.tsx",
+        "src/components/ServiceCategoryBrowser.tsx",
+        "src/components/ServiceCategoryCard.tsx",
+        "src/hooks/useServices.tsx",
+        "src/hooks/useServiceCategories.tsx",
+        "src/hooks/useProfessionals.tsx"
+      ]
+    },
+    {
+      "name": "Bookings",
+      "description": "User bookings page and analytics sidebar.",
+      "files": [
+        "src/pages/UserBookings.tsx",
+        "src/components/BookingAnalyticsSidebar.tsx"
+      ]
+    },
+    {
+      "name": "Real-time Tracking",
+      "description": "Map tracking pages and components for location sharing and status.",
+      "files": [
+        "src/pages/TrackingMap.tsx",
+        "src/components/MapView.tsx",
+        "src/components/LocationTracker.tsx",
+        "src/components/LocationSharingPermissions.tsx",
+        "src/components/TrackingStatusPanel.tsx",
+        "src/hooks/useLocationTracking.tsx"
+      ]
+    },
+    {
+      "name": "Messaging",
+      "description": "Messaging page and components for chat UI.",
+      "files": [
+        "src/pages/Messaging.tsx",
+        "src/components/ChatContainer.tsx",
+        "src/components/ChatInput.tsx",
+        "src/components/MessageItem.tsx",
+        "src/components/MessageList.tsx"
+      ]
+    },
+    {
+      "name": "Provider Onboarding",
+      "description": "Multi-step profile wizard for professionals.",
+      "files": [
+        "src/pages/ProviderProfileWizard.tsx",
+        "src/components/profile-wizard/BusinessInfoStep.tsx",
+        "src/components/profile-wizard/CredentialsStep.tsx",
+        "src/components/profile-wizard/ServiceOfferingsStep.tsx"
+      ]
+    },
+    {
+      "name": "Chatbot",
+      "description": "AI chatbot page and Netlify function backend.",
+      "files": [
+        "src/pages/Chatbot.tsx",
+        "netlify/functions/chatbot.ts"
+      ]
+    },
+    {
+      "name": "Settings & Profile",
+      "description": "User profile and settings pages.",
+      "files": [
+        "src/pages/ProfileSettings.tsx",
+        "src/pages/Settings.tsx"
+      ]
+    },
+    {
+      "name": "Landing & Marketing",
+      "description": "Home, How it works, Top providers, FAQs, Pricing.",
+      "files": [
+        "src/pages/Index.tsx",
+        "src/pages/HowItWorksPage.tsx",
+        "src/pages/TopProviders.tsx",
+        "src/pages/FAQ.tsx",
+        "src/pages/Pricing.tsx",
+        "src/components/HowItWorks.tsx",
+        "src/components/TestimonialSection.tsx",
+        "src/components/FeaturedProviders.tsx",
+        "src/components/Footer.tsx"
+      ]
+    }
+  ]
+}
+
+

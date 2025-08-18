@@ -1,0 +1,43 @@
+# Supabase MCP Configuration
+
+[project]
+name = "local-crafts-connect"
+organization_id = "your-organization-id"
+
+[api]
+enabled = true
+port = 54321
+schemas = ["public", "storage"]
+extra_search_path = ["public", "extensions"]
+max_rows = 1000
+
+[auth]
+site_url = "http://localhost:3000"
+additional_redirect_urls = ["https://localhost:3000"]
+jwt_expiry = 3600
+enable_signup = true
+
+[db]
+port = 5432
+major_version = 15
+
+[studio]
+enabled = true
+port = 54323
+api_url = "http://localhost:54321"
+
+[inbucket]
+enabled = true
+port = 54324
+
+[storage]
+file_size_limit = "50MiB"
+enabled = true
+
+[realtime]
+enabled = true
+port = 54325
+
+[analytics]
+enabled = true
+port = 54326 

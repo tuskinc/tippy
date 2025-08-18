@@ -1,0 +1,542 @@
+[
+  {
+    "id": "TC001",
+    "title": "User registration success",
+    "description": "Verify that a new user can successfully register with valid email, password, and role selection.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to the registration page"
+      },
+      {
+        "type": "action",
+        "description": "Enter a valid email address"
+      },
+      {
+        "type": "action",
+        "description": "Enter a strong password complying with password policy"
+      },
+      {
+        "type": "action",
+        "description": "Select user role (customer or professional)"
+      },
+      {
+        "type": "action",
+        "description": "Submit the registration form"
+      },
+      {
+        "type": "assertion",
+        "description": "Registration completes successfully and redirects to profile setup or dashboard"
+      }
+    ]
+  },
+  {
+    "id": "TC002",
+    "title": "User login success with correct credentials",
+    "description": "Verify login succeeds with valid registered email and password for both roles.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to the login page"
+      },
+      {
+        "type": "action",
+        "description": "Enter valid registered email and password"
+      },
+      {
+        "type": "action",
+        "description": "Press the login button"
+      },
+      {
+        "type": "assertion",
+        "description": "User is authenticated and redirected to appropriate dashboard"
+      }
+    ]
+  },
+  {
+    "id": "TC003",
+    "title": "Login failure with incorrect credentials",
+    "description": "Verify login attempt fails when incorrect email or password is provided.",
+    "category": "error handling",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to the login page"
+      },
+      {
+        "type": "action",
+        "description": "Enter invalid or unregistered email or incorrect password"
+      },
+      {
+        "type": "action",
+        "description": "Click the login button"
+      },
+      {
+        "type": "assertion",
+        "description": "Login is denied and appropriate error message is displayed"
+      }
+    ]
+  },
+  {
+    "id": "TC004",
+    "title": "Password recovery process",
+    "description": "Verify that users can recover password using registered email address.",
+    "category": "functional",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to the login page"
+      },
+      {
+        "type": "action",
+        "description": "Click on 'Forgot password' link"
+      },
+      {
+        "type": "action",
+        "description": "Enter registered email address"
+      },
+      {
+        "type": "action",
+        "description": "Submit password recovery request"
+      },
+      {
+        "type": "assertion",
+        "description": "Password reset email is sent to the registered email"
+      }
+    ]
+  },
+  {
+    "id": "TC005",
+    "title": "Discover services via category browsing",
+    "description": "Verify customers can browse service categories and view correct listings of services and providers.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to the services browsing page"
+      },
+      {
+        "type": "action",
+        "description": "Select a service category"
+      },
+      {
+        "type": "assertion",
+        "description": "Display list of providers and services under selected category with correct details"
+      }
+    ]
+  },
+  {
+    "id": "TC006",
+    "title": "Service discovery with filtering",
+    "description": "Verify that the advanced filters (location, price, rating, availability) correctly filter service provider listings.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to the service discovery page"
+      },
+      {
+        "type": "action",
+        "description": "Apply filters: location radius, price range, minimum rating, and availability date/time"
+      },
+      {
+        "type": "assertion",
+        "description": "Only providers matching all selected filters are displayed"
+      }
+    ]
+  },
+  {
+    "id": "TC007",
+    "title": "Professional onboarding workflow completion",
+    "description": "Verify professionals can complete multi-step onboarding wizard including business info, credentials, and offerings.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Login as professional and open onboarding wizard"
+      },
+      {
+        "type": "action",
+        "description": "Complete business info step with valid data"
+      },
+      {
+        "type": "action",
+        "description": "Complete credentials step with proper documents and verification info"
+      },
+      {
+        "type": "action",
+        "description": "Complete service offerings selection step"
+      },
+      {
+        "type": "action",
+        "description": "Submit the onboarding wizard"
+      },
+      {
+        "type": "assertion",
+        "description": "Profile is created and status shows verified or pending verification appropriately"
+      }
+    ]
+  },
+  {
+    "id": "TC008",
+    "title": "Booking creation with real-time availability check",
+    "description": "Verify booking service allows users to select available time slots and successfully create an appointment with payment processing.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "As customer, select a service provider and open booking interface"
+      },
+      {
+        "type": "action",
+        "description": "Select an available appointment slot"
+      },
+      {
+        "type": "action",
+        "description": "Provide required booking details and proceed to payment"
+      },
+      {
+        "type": "action",
+        "description": "Complete payment with valid payment info"
+      },
+      {
+        "type": "assertion",
+        "description": "Booking is confirmed and user receives a confirmation notification"
+      }
+    ]
+  },
+  {
+    "id": "TC009",
+    "title": "Booking rescheduling",
+    "description": "Verify users can reschedule confirmed bookings to another available time slot and receive updated confirmation.",
+    "category": "functional",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to user bookings page"
+      },
+      {
+        "type": "action",
+        "description": "Select a confirmed booking and choose to reschedule"
+      },
+      {
+        "type": "action",
+        "description": "Pick a new available time slot"
+      },
+      {
+        "type": "action",
+        "description": "Confirm reschedule action"
+      },
+      {
+        "type": "assertion",
+        "description": "Booking is updated with new time and confirmation notification is sent"
+      }
+    ]
+  },
+  {
+    "id": "TC010",
+    "title": "Booking cancellation with refund policy",
+    "description": "Verify users can cancel bookings within allowed timeframe and receive appropriate refund or cancellation notices.",
+    "category": "functional",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Access bookings page and select a booking eligible for cancellation"
+      },
+      {
+        "type": "action",
+        "description": "Cancel the booking"
+      },
+      {
+        "type": "assertion",
+        "description": "Cancellation is processed correctly, refund triggered if applicable, and user notified"
+      }
+    ]
+  },
+  {
+    "id": "TC011",
+    "title": "Real-time provider location tracking with privacy controls",
+    "description": "Verify that customer can view provider's live location with updates within 500ms latency and can opt-in/out of location sharing.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Start a service delivery session with assigned provider"
+      },
+      {
+        "type": "action",
+        "description": "View provider location on the tracking map"
+      },
+      {
+        "type": "assertion",
+        "description": "Location updates are displayed in real-time with maximum 500ms latency"
+      },
+      {
+        "type": "action",
+        "description": "Toggle location sharing privacy settings as provider"
+      },
+      {
+        "type": "assertion",
+        "description": "Location sharing respects privacy preference immediately"
+      }
+    ]
+  },
+  {
+    "id": "TC012",
+    "title": "In-app messaging send and receive",
+    "description": "Verify users can send, receive and view messages, including text and media file sharing in real time.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to messaging page"
+      },
+      {
+        "type": "action",
+        "description": "Select a conversation or start a new chat"
+      },
+      {
+        "type": "action",
+        "description": "Send a text message and verify delivery"
+      },
+      {
+        "type": "action",
+        "description": "Send a supported media file (image or document)"
+      },
+      {
+        "type": "assertion",
+        "description": "Messages and media appear instantly in the chat and notifications are received"
+      }
+    ]
+  },
+  {
+    "id": "TC013",
+    "title": "Message history persistence and notifications",
+    "description": "Verify that message history is persisted across sessions and users receive push/real-time notifications for new messages.",
+    "category": "functional",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Send messages in a conversation"
+      },
+      {
+        "type": "action",
+        "description": "Log out and log back in"
+      },
+      {
+        "type": "action",
+        "description": "Open the messaging page and load conversation"
+      },
+      {
+        "type": "assertion",
+        "description": "All previous messages are present and notifications arrive for new incoming messages"
+      }
+    ]
+  },
+  {
+    "id": "TC014",
+    "title": "AI Chatbot assistance for FAQs and booking",
+    "description": "Verify users can interact with AI chatbot to receive relevant answers for FAQs and assistance during booking workflow.",
+    "category": "functional",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to chatbot page"
+      },
+      {
+        "type": "action",
+        "description": "Ask common FAQ questions"
+      },
+      {
+        "type": "assertion",
+        "description": "Chatbot provides accurate, relevant responses matching FAQs"
+      },
+      {
+        "type": "action",
+        "description": "Request booking assistance via chatbot"
+      },
+      {
+        "type": "assertion",
+        "description": "Chatbot guides user through booking steps correctly"
+      }
+    ]
+  },
+  {
+    "id": "TC015",
+    "title": "Submitting customer reviews and ratings",
+    "description": "Verify customers can submit detailed reviews and ratings after service completion, and reviews are securely saved and displayed.",
+    "category": "functional",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "After booking completion, navigate to the review page"
+      },
+      {
+        "type": "action",
+        "description": "Enter a rating score and detailed review comments"
+      },
+      {
+        "type": "action",
+        "description": "Submit the review"
+      },
+      {
+        "type": "assertion",
+        "description": "Review is stored, verified, and displayed on provider’s profile"
+      }
+    ]
+  },
+  {
+    "id": "TC016",
+    "title": "Review submission validation and error handling",
+    "description": "Verify the system prevents submission of invalid reviews such as empty comments or ratings out of range.",
+    "category": "error handling",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Attempt to submit review with no rating or comment"
+      },
+      {
+        "type": "assertion",
+        "description": "User is shown an error message preventing submission"
+      },
+      {
+        "type": "action",
+        "description": "Attempt to submit rating out of allowed numeric range"
+      },
+      {
+        "type": "assertion",
+        "description": "Rating input validation blocks submission and shows error"
+      }
+    ]
+  },
+  {
+    "id": "TC017",
+    "title": "Analytics dashboard data accuracy",
+    "description": "Verify that analytics dashboards for customers and providers correctly reflect booking patterns, reviews, and performance data.",
+    "category": "functional",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Login as a customer and view analytics dashboard"
+      },
+      {
+        "type": "assertion",
+        "description": "Display booking history and usage patterns accurately"
+      },
+      {
+        "type": "action",
+        "description": "Login as a provider and open performance dashboard"
+      },
+      {
+        "type": "assertion",
+        "description": "Show correct booking, review, and rating summary data"
+      }
+    ]
+  },
+  {
+    "id": "TC018",
+    "title": "Mobile app responsive behavior and offline support",
+    "description": "Verify the mobile application UI is responsive across device screen sizes and critical features support offline mode and sync upon reconnect.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Open mobile app on various device sizes and orientations"
+      },
+      {
+        "type": "assertion",
+        "description": "UI layout adjusts correctly without content clipping or overflow"
+      },
+      {
+        "type": "action",
+        "description": "Simulate offline network condition"
+      },
+      {
+        "type": "action",
+        "description": "Perform actions like browsing cached services and composing messages"
+      },
+      {
+        "type": "assertion",
+        "description": "App does not crash, queues offline actions, and syncs changes when online again"
+      }
+    ]
+  },
+  {
+    "id": "TC019",
+    "title": "Route protection for authenticated and role-based access",
+    "description": "Verify that application routes are protected based on authentication status and user role, preventing unauthorized access.",
+    "category": "security",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Attempt to access protected customer-only page when not logged in"
+      },
+      {
+        "type": "assertion",
+        "description": "Redirect to login page"
+      },
+      {
+        "type": "action",
+        "description": "Login as professional and attempt to access customer-only page"
+      },
+      {
+        "type": "assertion",
+        "description": "Access is denied or redirected appropriately"
+      },
+      {
+        "type": "action",
+        "description": "Login as customer and access professional-only onboarding page"
+      },
+      {
+        "type": "assertion",
+        "description": "Access is denied or redirected appropriately"
+      }
+    ]
+  },
+  {
+    "id": "TC020",
+    "title": "File upload validation during professional onboarding",
+    "description": "Verify that uploaded files for credentials meet size and format restrictions and proper error messages are shown for invalid inputs.",
+    "category": "error handling",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Upload document exceeding max allowed file size"
+      },
+      {
+        "type": "assertion",
+        "description": "File is rejected with an informative error message"
+      },
+      {
+        "type": "action",
+        "description": "Upload document with unsupported format"
+      },
+      {
+        "type": "assertion",
+        "description": "File is rejected and user prompted for supported formats"
+      }
+    ]
+  }
+]
