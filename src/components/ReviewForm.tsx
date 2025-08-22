@@ -67,11 +67,11 @@ const ReviewForm = ({ professional, booking, onSuccess }: ReviewFormProps) => {
       if (onSuccess) {
         onSuccess();
       }
-    } catch (error: any) {
-      console.error('Error submitting review:', error);
+    } catch (err: unknown) {
+      console.error('Error submitting review:', err);
       toast({
         title: "Error",
-        description: error.message || "Failed to submit review. Please try again.",
+        description: err instanceof Error ? err.message : "Failed to submit review. Please try again.",
         variant: "destructive",
       });
     } finally {
@@ -94,7 +94,7 @@ const ReviewForm = ({ professional, booking, onSuccess }: ReviewFormProps) => {
                   key={star}
                   type="button"
                   onClick={() => setRating(star)}
-                  className="focus:outline-none"
+                  className="focus:outline-none" aria-label={`Rate ${star} star${star > 1 ? 's' : ''}`}
                 >
                   <Star
                     className={`h-8 w-8 ${
