@@ -134,7 +134,9 @@ const queryClient = new QueryClient();
 
 // Custom hook to fetch providers with React Query
 function useProviders() {
-  return useQuery(['providers'], async () => {
+  return useQuery({
+    queryKey: ['providers'],
+    queryFn: async () => {
     const { data, error } = await supabase
       .from('profiles')
       .select(`
@@ -170,6 +172,7 @@ function useProviders() {
       verified: p.verified,
       rebooking_count: p.booking_statistics?.rebooking_count ?? 0
     }));
+  },
   });
 }
 
@@ -380,7 +383,6 @@ const Providers = () => {
               <TabsTrigger value="list">List View</TabsTrigger>
               <TabsTrigger value="map">Map View</TabsTrigger>
             </TabsList>
-          </Tabs>
           
           <TabsContent value="list" className="mt-0">
             {sortedProviders.length > 0 ? (
@@ -493,6 +495,7 @@ const Providers = () => {
               </div>
             </div>
           </TabsContent>
+          </Tabs>
         </div>
       </div>
       

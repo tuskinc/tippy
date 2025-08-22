@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
@@ -9,16 +9,50 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Star, MapPin, Clock, Repeat } from "lucide-react";
-import { toast } from "@/components/ui/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { useQuery, QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
+// Types
+interface BookingStats { total_rebookings: number; rebooking_rate: number; }
+interface RawProfile {
+  user_id: string;
+  first_name: string;
+  last_name: string;
+  avatar_url: string;
+  service_category: string;
+  location: string;
+  hourly_rate: number;
+  verified: boolean;
+  booking_statistics: BookingStats[];
+}
+
+interface Professional {
+  id: string;
+  name: string;
+  avatar: string;
+  service: string;
+  rating: number;
+  reviewCount: number;
+  location: string;
+  responseTime: string;
+  description: string;
+  tags: string[];
+  hourlyRate: number;
+  availability: string;
+  coverImage: string;
+  verified: boolean;
+  total_rebookings: number;
+  rebooking_rate: number;
+}
 
 // React Query client (move to App.tsx for global use in a real app)
 const queryClient = new QueryClient();
 
 // Custom hook to fetch professionals with React Query
 function useProfessionals(serviceName: string) {
-  return useQuery(['professionals', serviceName], async () => {
+  return useQuery<Professional[]>({
+    queryKey: ['professionals', serviceName],
+    queryFn: async () => {
     let query = supabase
       .from('profiles')
       .select(`
@@ -43,7 +77,7 @@ function useProfessionals(serviceName: string) {
     }
     const { data, error } = await query;
     if (error) throw new Error(error.message);
-    return (data || []).map(pro => ({
+    return (data || []).map((pro: RawProfile) => ({
       id: pro.user_id,
       name: `${pro.first_name} ${pro.last_name}`,
       avatar: pro.avatar_url,
@@ -61,6 +95,7 @@ function useProfessionals(serviceName: string) {
       total_rebookings: pro.booking_statistics[0]?.total_rebookings || 0,
       rebooking_rate: pro.booking_statistics[0]?.rebooking_rate || 0
     }));
+  },
   });
 }
 
@@ -69,6 +104,7 @@ const ProfessionalsListing = () => {
   const navigate = useNavigate();
   const serviceName = location.state?.serviceName || new URLSearchParams(location.search).get("service") || "";
   const [viewMode, setViewMode] = useState("list");
+  const mapboxToken = import.meta.env.VITE_MAPBOX_ACCESS_TOKEN || '';
   // Use React Query for professionals
   const { data: professionals = [], isLoading, error } = useProfessionals(serviceName);
 
@@ -101,11 +137,11 @@ const ProfessionalsListing = () => {
             </TabsList>
             
             <TabsContent value="list" className="mt-0">
-              {loading ? (
+              {isLoading ? (
                  <div className="text-center py-12">Loading professionals...</div>
               ) : professionals.length > 0 ? (
                 <div className="grid grid-cols-1 gap-6">
-                  {professionals.map((professional) => (
+                  {professionals.map((professional: Professional) => (
                     <Card key={professional.id} className="overflow-hidden">
                       <div className="flex flex-col md:flex-row">
                         <div className="relative md:w-1/3 h-64 md:h-auto bg-gray-200">
@@ -164,7 +200,7 @@ const ProfessionalsListing = () => {
                             <p className="mt-2">{professional.description}</p>
                             
                             <div className="mt-4 flex flex-wrap gap-2">
-                              {professional.tags.map((tag) => (
+                              {professional.tags.map((tag: string) => (
                                 <Badge key={tag} variant="outline" className="bg-gray-50">
                                   {tag}
                                 </Badge>
@@ -221,7 +257,7 @@ const ProfessionalsListing = () => {
                 <div className="p-4 border-t">
                   <h3 className="font-medium mb-4">Nearby Professionals</h3>
                   <div className="space-y-2 max-h-64 overflow-y-auto">
-                    {professionals.map((pro) => (
+                    {professionals.map((pro: Professional) => (
                       <div key={pro.id} className="flex items-center gap-3 p-2 hover:bg-gray-50 rounded-lg">
                         <Avatar className="h-10 w-10">
                           <AvatarImage src={pro.avatar} alt={pro.name} />
