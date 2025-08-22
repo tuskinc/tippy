@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { serviceCategories } from '@/data/serviceCategories';
 
 interface Props {
@@ -36,7 +36,7 @@ export default function ServiceCategoryBrowser({ onSelectService }: Props) {
             <div
               className="flex items-center cursor-pointer"
               onClick={() => setExpanded(expanded === cat.slug ? null : cat.slug)}
-              aria-expanded={expanded === cat.slug}
+              aria-expanded={expanded === cat.slug ? 'true' : 'false'}
               tabIndex={0}
               onKeyDown={e => e.key === 'Enter' && setExpanded(expanded === cat.slug ? null : cat.slug)}
             >

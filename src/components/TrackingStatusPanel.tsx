@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -13,7 +13,15 @@ interface TrackingStatusPanelProps {
 }
 
 export default function TrackingStatusPanel({ trackingSessionId, className }: TrackingStatusPanelProps) {
-  const [session, setSession] = useState<any>(null);
+  interface TrackingSession {
+  id?: string;
+  status: 'ACTIVE' | 'COMPLETED' | 'CANCELLED' | string;
+  initial_eta?: number; // seconds
+  start_time?: string;
+  providerName?: string;
+}
+
+  const [session, setSession] = useState<TrackingSession | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -67,7 +75,7 @@ export default function TrackingStatusPanel({ trackingSessionId, className }: Tr
         schema: 'public', 
         table: 'tracking_sessions',
         filter: `id=eq.${trackingSessionId}`
-      }, (payload) => {
+      }, (payload: { new: TrackingSession }) => {
         setSession(payload.new);
       })
       .subscribe();
