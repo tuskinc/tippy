@@ -31,14 +31,16 @@ export default function ServiceCategoryBrowser({ onSelectService }: Props) {
       />
       {/* Responsive grid of categories */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filtered.map(cat => (
+        {filtered.map(cat => {
+          const isExpanded = expanded === cat.slug;
+          return (
           <div key={cat.slug} className="bg-white rounded shadow p-4">
             <div
               className="flex items-center cursor-pointer"
-              onClick={() => setExpanded(expanded === cat.slug ? null : cat.slug)}
-              aria-expanded={expanded === cat.slug ? 'true' : 'false'}
+              onClick={() => setExpanded(isExpanded ? null : cat.slug)}
+              aria-expanded={isExpanded}
               tabIndex={0}
-              onKeyDown={e => e.key === 'Enter' && setExpanded(expanded === cat.slug ? null : cat.slug)}
+              onKeyDown={e => e.key === 'Enter' && setExpanded(isExpanded ? null : cat.slug)}
             >
               <div className={`w-10 h-10 rounded-full flex items-center justify-center mr-3 ${cat.color}`}>{/* Optionally render SVG icon here */}</div>
               <div>
@@ -46,7 +48,7 @@ export default function ServiceCategoryBrowser({ onSelectService }: Props) {
                 <div className="text-xs text-gray-500">{cat.description}</div>
               </div>
             </div>
-            {expanded === cat.slug && (
+            {isExpanded && (
               <ul className="mt-3 pl-4 list-disc">
                 {cat.filteredServices.map((svc: string) => (
                   <li key={svc}>
@@ -63,7 +65,8 @@ export default function ServiceCategoryBrowser({ onSelectService }: Props) {
               </ul>
             )}
           </div>
-        ))}
+          );
+        })}
         {filtered.length === 0 && <div className="col-span-full text-gray-500">No services found.</div>}
       </div>
     </div>
