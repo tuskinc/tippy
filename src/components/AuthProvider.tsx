@@ -44,11 +44,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     };
   }, []);
 
-  const signIn = async (email: string, password: string) => {
+  const signIn = async (email: string, password: string): Promise<boolean> => {
     setLoading(true);
     setError(null);
     try {
-      const { error } = await supabase.auth.signInWithPassword({
+      const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password,
       });
@@ -57,10 +57,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         throw error;
       }
 
+      // Ensure state reflects the latest auth result immediately
+      setSession(data.session ?? null);
+      setUser(data.user ?? null);
+
       // toast({
       //   title: "Success",
       //   description: "You have been signed in!",
       // });
+
+      return true;
 
     } catch (err) {
       console.error('Error signing in:', err);
@@ -71,6 +77,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       //   title: "Error",
       //   description: message,
       // });
+      return false;
     } finally {
       setLoading(false);
     }

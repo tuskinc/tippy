@@ -36,7 +36,10 @@ export const supabase: any = {
         token_type: "bearer",
         user: { id: randomId(), email },
       };
-      return createOkNoData();
+      return createOk<{ user: { id: string; email: string } | null; session: Session }>({
+        user: currentSession ? currentSession.user : null,
+        session: currentSession,
+      });
     },
     async signUp({ email }: { email: string; password: string; options?: { data?: unknown } }) {
       currentSession = {
@@ -44,7 +47,10 @@ export const supabase: any = {
         token_type: "bearer",
         user: { id: randomId(), email },
       };
-      return createOkNoData();
+      return createOk<{ user: { id: string; email: string } | null; session: Session }>({
+        user: currentSession ? currentSession.user : null,
+        session: currentSession,
+      });
     },
     async signOut() {
       currentSession = null;
