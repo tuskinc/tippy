@@ -38,7 +38,7 @@ export default function ServiceCategoryBrowser({ onSelectService }: Props) {
             <div
               className="flex items-center cursor-pointer"
               onClick={() => setExpanded(isExpanded ? null : cat.slug)}
-              aria-expanded={isExpanded}
+              aria-expanded={isExpanded ? 'true' : 'false'}
               tabIndex={0}
               onKeyDown={e => e.key === 'Enter' && setExpanded(isExpanded ? null : cat.slug)}
             >

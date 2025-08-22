@@ -61,7 +61,7 @@ export default function MapView({
   trackingSessionId, 
   jobId, 
   className,
-  mapboxAccessToken = 'pk.eyJ1IjoicmFtemFua2luZyIsImEiOiJjbWF5NDJpYXIwNG05MnZyMGZhdTZwYTMzIn0.2iCcjmocpG4aAnbQ9jyCuQ' // Updated token from user
+  mapboxAccessToken = import.meta.env.VITE_MAPBOX_ACCESS_TOKEN || '' // Mapbox access token provided via VITE_MAPBOX_ACCESS_TOKEN
 }: MapViewProps) {
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<mapboxgl.Map | null>(null);
