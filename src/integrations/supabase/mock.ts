@@ -65,22 +65,37 @@ export const supabase: any = {
       return createOkNoData();
     },
   },
-  from(_table: string) {
-    return {
-      select: async () => createOk<any[]>([]),
+  from(table: string) {
+    const builder: any = {
+      _table: table,
+      _select: '*',
+      _filters: [] as Array<{ column: string; op: string; value: unknown }>,
+      _orderBy: null as string | null,
+      _orderOpts: {} as unknown,
+      _limit: null as number | null,
+      select(this: any, columns = '*') {
+        this._select = columns;
+        return this;
+      },
+      eq(this: any, column: string, value: unknown) {
+        this._filters.push({ column, op: 'eq', value });
+        return this;
+      },
+      order(this: any, column: string, opts?: unknown) {
+        this._orderBy = column;
+        this._orderOpts = opts || {};
+        // Resolve with an empty dataset shaped like Supabase response
+        return createOk<any[]>([]);
+      },
+      limit(this: any, n: number) {
+        this._limit = n;
+        return this;
+      },
       insert: async (_values: unknown) => createOkNoData(),
       update: async (_values: unknown) => createOkNoData(),
       delete: async () => createOkNoData(),
-      eq: function () {
-        return this;
-      },
-      order: function () {
-        return this;
-      },
-      limit: function () {
-        return this;
-      },
     };
+    return builder;
   },
 };
 
