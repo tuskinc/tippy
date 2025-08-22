@@ -1,9 +1,9 @@
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from '@/components/ui/use-toast';
 import { Card, CardContent } from '@/components/ui/card';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Star } from 'lucide-react';
 import { Review } from '@/integrations/supabase/types.d';
 
@@ -22,14 +22,9 @@ const ReviewsList = ({ professionalId }: ReviewsListProps) => {
   const [reviews, setReviews] = useState<ReviewWithCustomer[]>([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    fetchReviews();
-  }, [professionalId]);
-
-  const fetchReviews = async () => {
+  const fetchReviews = useCallback(async () => {
     try {
       setLoading(true);
-      
       // First, get all reviews for this professional
       const { data: reviewsData, error: reviewsError } = await supabase
         .from('reviews')
@@ -38,16 +33,15 @@ const ReviewsList = ({ professionalId }: ReviewsListProps) => {
         .order('created_at', { ascending: false });
 
       if (reviewsError) throw reviewsError;
-      
+
       if (!reviewsData || reviewsData.length === 0) {
         setReviews([]);
         setLoading(false);
         return;
       }
 
-      // Then, for each review, fetch the customer data separately
       const reviewsWithCustomers: ReviewWithCustomer[] = await Promise.all(
-        reviewsData.map(async (review) => {
+        (reviewsData as Review[]).map(async (review: Review) => {
           const { data: customerData, error: customerError } = await supabase
             .from('customers')
             .select('id, name')
@@ -56,23 +50,27 @@ const ReviewsList = ({ professionalId }: ReviewsListProps) => {
 
           return {
             ...review,
-            customer: customerError ? null : customerData
+            customer: customerError ? null : customerData,
           } as ReviewWithCustomer;
         })
       );
-      
+
       setReviews(reviewsWithCustomers);
-    } catch (error: any) {
-      console.error('Error fetching reviews:', error);
+    } catch (err: unknown) {
+      console.error('Error fetching reviews:', err);
       toast({
-        title: "Error",
-        description: error.message || "Failed to load reviews",
-        variant: "destructive",
+        title: 'Error',
+        description: err instanceof Error ? err.message : 'Failed to load reviews',
+        variant: 'destructive',
       });
     } finally {
       setLoading(false);
     }
-  };
+  }, [professionalId]);
+
+  useEffect(() => {
+    fetchReviews();
+  }, [fetchReviews]);
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -93,7 +91,7 @@ const ReviewsList = ({ professionalId }: ReviewsListProps) => {
 
   return (
     <div className="space-y-4">
-      {reviews.map((review) => (
+      {reviews.map((review: ReviewWithCustomer) => (
         <Card key={review.id}>
           <CardContent className="pt-6">
             <div className="flex justify-between mb-2">
