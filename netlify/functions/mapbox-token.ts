@@ -1,5 +1,3 @@
-import { Handler } from '@netlify/functions';
-
 /**
  * Serverless function that returns the Mapbox access token stored in an
  * environment variable. This keeps the real token off of the client bundle
@@ -8,7 +6,7 @@ import { Handler } from '@netlify/functions';
  * Set the variable in Netlify / Render / Vercel dashboard or in an `.env`
  * file *outside* the React build so it is not shipped to the browser.
  */
-export const handler: Handler = async () => {
+export const handler = async () => {
   const MAPBOX_TOKEN = process.env.MAPBOX_ACCESS_TOKEN;
 
   if (!MAPBOX_TOKEN) {
