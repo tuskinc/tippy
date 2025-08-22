@@ -61,9 +61,28 @@ export default function MapView({
   trackingSessionId, 
   jobId, 
   className,
-  mapboxAccessToken = import.meta.env.VITE_MAPBOX_ACCESS_TOKEN || '' // Mapbox access token provided via VITE_MAPBOX_ACCESS_TOKEN
+  mapboxAccessToken = import.meta.env.VITE_MAPBOX_ACCESS_TOKEN || ''
 }: MapViewProps) {
   const mapContainer = useRef<HTMLDivElement>(null);
+  const [resolvedToken, setResolvedToken] = useState<string>(mapboxAccessToken);
+
+  // Retrieve token from serverless function if not supplied
+  useEffect(() => {
+    if (resolvedToken) return;
+    (async () => {
+      try {
+        const res = await fetch('/.netlify/functions/mapbox-token');
+        if (res.ok) {
+          const json = await res.json();
+          setResolvedToken(json.token || '');
+        } else {
+          console.error('Failed to fetch Mapbox token');
+        }
+      } catch (err) {
+        console.error('Error fetching Mapbox token', err);
+      }
+    })();
+  }, [resolvedToken]);
   const map = useRef<mapboxgl.Map | null>(null);
   const providerMarker = useRef<mapboxgl.Marker | null>(null);
   const customerMarker = useRef<mapboxgl.Marker | null>(null);
@@ -87,12 +106,12 @@ export default function MapView({
 
     try {
       // Check if mapboxgl is available and a token is provided
-      if (!mapboxAccessToken) {
+      if (!resolvedToken) {
         setError("Mapbox access token is required");
         return;
       }
 
-      mapboxgl.accessToken = mapboxAccessToken;
+      mapboxgl.accessToken = resolvedToken;
       
       map.current = new mapboxgl.Map({
         container: mapContainer.current,
@@ -145,7 +164,7 @@ export default function MapView({
       console.error('Error initializing map:', error);
       setError('Failed to initialize map');
     }
-  }, [mapboxAccessToken]);
+  }, [resolvedToken]);
 
   // Update markers when locations change
   useEffect(() => {
@@ -361,7 +380,7 @@ export default function MapView({
       console.error('Error updating route:', error);
     }
     },
-    [mapInitialized, mapboxAccessToken]
+    [mapInitialized, resolvedToken]
   );
 
   const fetchProviderEtas = useCallback(async (providers: Provider[]) => {
@@ -382,7 +401,7 @@ export default function MapView({
       }
     }));
     setProviderEtas(results.filter(r => r !== null) as ProviderEta[]);
-  }, [userLocation, mapboxAccessToken]);
+  }, [userLocation, resolvedToken]);
 
   const fetchNearbyProviders = useCallback(async () => {
     try {

@@ -84,12 +84,12 @@ export const supabase: any = {
       order(this: any, column: string, opts?: unknown) {
         this._orderBy = column;
         this._orderOpts = opts || {};
-        // Resolve with an empty dataset shaped like Supabase response
-        return createOk<any[]>([]);
+        return this; // allow further chaining
       },
       limit(this: any, n: number) {
         this._limit = n;
-        return this;
+        // Finalize query and return empty dataset
+        return createOk<any[]>([]);
       },
       insert: async (_values: unknown) => createOkNoData(),
       update: async (_values: unknown) => createOkNoData(),
