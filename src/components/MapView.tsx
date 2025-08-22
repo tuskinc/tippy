@@ -72,11 +72,15 @@ export default function MapView({
     (async () => {
       try {
         const res = await fetch('/.netlify/functions/mapbox-token');
-        if (res.ok) {
-          const json = await res.json();
-          setResolvedToken(json.token || '');
+        if (res.ok && res.headers.get('content-type')?.includes('application/json')) {
+          try {
+            const json = await res.json();
+            setResolvedToken(json.token || '');
+          } catch {
+            console.warn('Mapbox token response not JSON; falling back');
+          }
         } else {
-          console.error('Failed to fetch Mapbox token');
+          console.warn('Mapbox token endpoint not available in dev; using env token');
         }
       } catch (err) {
         console.error('Error fetching Mapbox token', err);
