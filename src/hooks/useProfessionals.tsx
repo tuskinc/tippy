@@ -12,8 +12,6 @@ export function useProfessionals(serviceId?: string) {
       try {
         setLoading(true);
         
-        let query;
-        
         if (serviceId) {
           // If serviceId is provided, get professionals offering that service
           const { data, error } = await supabase
@@ -27,7 +25,7 @@ export function useProfessionals(serviceId?: string) {
           if (error) throw error;
           
           // Format data to extract professionals from the join query
-          const formattedData = data.map((item: any) => item.professional);
+          const formattedData = (data ?? []).map((item: { professional: Professional }) => item.professional);
           setProfessionals(formattedData);
         } else {
           // Otherwise get all professionals
@@ -39,9 +37,10 @@ export function useProfessionals(serviceId?: string) {
           
           setProfessionals(data);
         }
-      } catch (error: any) {
-        console.error('Error fetching professionals:', error);
-        setError(error.message || 'Failed to fetch professionals');
+      } catch (error) {
+        const err = error as Error;
+        console.error('Error fetching professionals:', err);
+        setError(err.message || 'Failed to fetch professionals');
       } finally {
         setLoading(false);
       }
