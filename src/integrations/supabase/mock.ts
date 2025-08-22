@@ -15,11 +15,30 @@ function createOkNoData() {
   return Promise.resolve({ error: null } as { error: null });
 }
 
-function randomId(prefix = "usr_") {
+function randomId(prefix = "usr_"): string {
   return prefix + Math.random().toString(36).slice(2, 10);
 }
 
-export const supabase: any = {
+// Types for mock implementation
+type QueryFilter = { column: string; op: string; value: unknown };
+
+interface QueryBuilder<T> {
+  _table: string;
+  _select: string;
+  _filters: QueryFilter[];
+  _orderBy: string | null;
+  _orderOpts: unknown;
+  _limit: number | null;
+  select(columns?: string): QueryBuilder<T>;
+  eq(column: string, value: unknown): QueryBuilder<T>;
+  order(column: string, opts?: unknown): QueryBuilder<T>;
+  limit(n: number): Promise<{ data: T[]; error: null }>;
+  insert(values: unknown): Promise<{ error: null }>;
+  update(values: unknown): Promise<{ error: null }>;
+  delete(): Promise<{ error: null }>;
+}
+
+export const supabase = {
   auth: {
     async getSession() {
       return createOk<{ session: Session }>({ session: currentSession });
@@ -66,30 +85,30 @@ export const supabase: any = {
     },
   },
   from(table: string) {
-    const builder: any = {
+    const builder: QueryBuilder<unknown> = {
       _table: table,
       _select: '*',
       _filters: [] as Array<{ column: string; op: string; value: unknown }>,
       _orderBy: null as string | null,
       _orderOpts: {} as unknown,
       _limit: null as number | null,
-      select(this: any, columns = '*') {
+      select(this: QueryBuilder<unknown>, columns = '*') {
         this._select = columns;
         return this;
       },
-      eq(this: any, column: string, value: unknown) {
+      eq(this: QueryBuilder<unknown>, column: string, value: unknown) {
         this._filters.push({ column, op: 'eq', value });
         return this;
       },
-      order(this: any, column: string, opts?: unknown) {
+      order(this: QueryBuilder<unknown>, column: string, opts?: unknown) {
         this._orderBy = column;
         this._orderOpts = opts || {};
         return this; // allow further chaining
       },
-      limit(this: any, n: number) {
+      limit(this: QueryBuilder<unknown>, n: number) {
         this._limit = n;
         // Finalize query and return empty dataset
-        return createOk<any[]>([]);
+        return createOk<unknown[]>([]);
       },
       insert: async (_values: unknown) => createOkNoData(),
       update: async (_values: unknown) => createOkNoData(),
