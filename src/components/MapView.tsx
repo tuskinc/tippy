@@ -1,4 +1,5 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { toast } from '@/components/ui/use-toast';
 import { supabase } from '@/integrations/supabase/client';
@@ -32,7 +33,6 @@ interface LocationUpdate {
   latitude: number;
   longitude: number;
   accuracy?: number;
-  heading?: number | null;
   speed?: number | null;
   timestamp: string;
   job_id?: string | null;
@@ -42,7 +42,6 @@ interface LocationUpdate {
 interface MapViewProps {
   trackingSessionId?: string;
   jobId?: string;
-  providerId?: string;
   className?: string;
   mapboxAccessToken?: string;
 }
@@ -61,7 +60,6 @@ interface MapboxDirectionsResponse {
 export default function MapView({ 
   trackingSessionId, 
   jobId, 
-  providerId,
   className,
   mapboxAccessToken = 'pk.eyJ1IjoicmFtemFua2luZyIsImEiOiJjbWF5NDJpYXIwNG05MnZyMGZhdTZwYTMzIn0.2iCcjmocpG4aAnbQ9jyCuQ' // Updated token from user
 }: MapViewProps) {
@@ -70,14 +68,13 @@ export default function MapView({
   const providerMarker = useRef<mapboxgl.Marker | null>(null);
   const customerMarker = useRef<mapboxgl.Marker | null>(null);
   const routeLine = useRef<mapboxgl.GeoJSONSource | null>(null);
-  const markersRef = useRef<mapboxgl.Marker[]>([]);
   
     
   
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [mapInitialized, setMapInitialized] = useState(false);
-  const [userLocation, setUserLocation] = useState<{ lat: number; lng: number } | null>(null);
+  const [userLocation] = useState<{ lat: number; lng: number } | null>(null);
   const [nearbyProviders, setNearbyProviders] = useState<Provider[]>([]);
   const [providerEtas, setProviderEtas] = useState<ProviderEta[]>([]);
   const [selectedProviderId, setSelectedProviderId] = useState<string | null>(null);
@@ -285,8 +282,7 @@ export default function MapView({
     } else {
       animateMarkerMovement(
         providerMarker.current,
-        [providerData.longitude, providerData.latitude],
-          providerData.heading ?? null
+        [providerData.longitude, providerData.latitude]
       );
       }
     }
@@ -311,8 +307,7 @@ export default function MapView({
   const animateMarkerMovement = useCallback(
     (
     marker: mapboxgl.Marker, 
-    newPosition: [number, number],
-    heading: number | null
+    newPosition: [number, number]
   ) => {
     const currentPosition = marker.getLngLat();
     const startTime = performance.now();
@@ -393,7 +388,7 @@ export default function MapView({
     try {
       setLoading(true);
       // 3. Remove type arguments from supabase.rpc and cast data as Provider[]
-      const { data, error: rpcError } = await supabase.rpc(
+      const { data } = await supabase.rpc(
         'get_nearby_providers',
         {
           user_lat: userLocation!.lat,
